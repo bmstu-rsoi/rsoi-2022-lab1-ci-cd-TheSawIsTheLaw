@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import ru.shit.shittytemplate.entity.Person
+import ru.shit.shittytemplate.repository.PersonsRepository
+import ru.shit.shittytemplate.repository.params.PersonsParameters
 
 @Controller
 @RequestMapping("/api/v1/persons")
@@ -11,9 +13,10 @@ class PersonsController {
 
     @GetMapping("", "/")
     @ResponseBody
-    fun getPersons(): String {
-        return "Just lol" // 200
-    }
+    fun getPersons(): ResponseEntity<Array<Person>> =
+        ResponseEntity(
+            PersonsRepository.get(PersonsParameters()).get(), HttpStatus.OK
+        )
 
     @GetMapping("/{id}")
     @ResponseBody

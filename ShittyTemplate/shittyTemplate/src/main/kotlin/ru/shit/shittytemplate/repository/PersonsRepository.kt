@@ -25,7 +25,14 @@ object PersonsRepository : Repository<PersonsParameters, Person> {
 
     override fun get(params: PersonsParameters): RequestResult<Person> =
         transaction(database) {
-            PersonsTable.select(mId eq params.personId).map { Person(it[mId], it[mName], it[mAge], it[mAddress], it[mWork]) }
+            val preset =
+                if (params.personId == -1) {
+                    PersonsTable.selectAll()
+                } else {
+                    PersonsTable.select(mId eq params.personId)
+                }
+
+            preset.map { Person(it[mId], it[mName], it[mAge], it[mAddress], it[mWork]) }
                     .toTypedArray().let { shit -> RequestResult(RequestResult.Result.SUCCESS, shit) }
         }
 

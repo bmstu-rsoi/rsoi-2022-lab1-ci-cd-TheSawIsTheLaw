@@ -4,5 +4,5 @@ import ru.shit.shittytemplate.entity.Person
 
 class PersonsParameters(
     val personId: Int = -1,
-    val newPerson: Person?
+    val newPerson: Person? = null
 ): Parameters()
