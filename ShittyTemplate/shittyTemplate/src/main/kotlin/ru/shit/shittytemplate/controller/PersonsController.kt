@@ -1,5 +1,6 @@
 package ru.shit.shittytemplate.controller
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import ru.shit.shittytemplate.entity.Person
@@ -22,19 +23,19 @@ class PersonsController {
 
     @PostMapping("", "/")
     @ResponseStatus
-    fun createPerson(@RequestBody person: Person): ResponseStatus {
-        return ResponseStatus(HttpStatus.CREATED) // 201 400 + id
+    fun createPerson(@RequestBody person: Person): ResponseEntity<String> {
+        return ResponseEntity(HttpStatus.CREATED) // 201 400 + id
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus
-    fun deletePerson(@PathVariable id: Int): ResponseStatus {
-        return ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deletePerson(@PathVariable id: Int): ResponseEntity<String> {
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus
-    fun patchPerson(@PathVariable id: Int): ResponseStatus {
-        return ResponseStatus(HttpStatus.OK) // 404 400
+    fun patchPerson(@PathVariable id: Int): ResponseEntity<String> {
+        return ResponseEntity(HttpStatus.OK) // 404 400
     }
 }
