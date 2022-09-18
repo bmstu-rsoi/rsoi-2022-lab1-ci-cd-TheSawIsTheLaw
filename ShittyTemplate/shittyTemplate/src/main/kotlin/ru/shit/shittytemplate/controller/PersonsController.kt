@@ -23,7 +23,7 @@ class PersonsController {
     @PostMapping("", "/")
     @ResponseStatus
     fun createPerson(@RequestBody person: Person): ResponseStatus {
-        return ResponseStatus(HttpStatus.CREATED) // 201 400
+        return ResponseStatus(HttpStatus.CREATED) // 201 400 + id
     }
 
     @DeleteMapping("/{id}")
