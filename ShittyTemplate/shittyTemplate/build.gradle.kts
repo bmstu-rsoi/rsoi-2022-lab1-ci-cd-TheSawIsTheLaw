@@ -27,7 +27,9 @@ dependencies {
     implementation("com.google.code.gson:gson")
 //    implementation("io.reactivex.rxjava3:rxjava:3.1.5")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.jetbrains.exposed:exposed-core:0.37.3")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.37.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

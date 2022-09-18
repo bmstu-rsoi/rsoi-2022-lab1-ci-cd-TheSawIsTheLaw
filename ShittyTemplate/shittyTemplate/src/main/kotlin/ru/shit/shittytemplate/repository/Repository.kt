@@ -5,11 +5,11 @@ import ru.shit.shittytemplate.repository.params.Parameters
 import ru.shit.shittytemplate.repository.result.RequestResult
 
 
-abstract class Repository {
+interface Repository<T: Parameters, R: Entity> {
 
-    abstract fun get(params: Parameters): RequestResult<Entity>
+    fun get(params: T): RequestResult<R>
 
-    abstract fun set(params: Parameters): RequestResult<Entity>
+    fun set(params: T): RequestResult<R>
 
-    abstract fun delete(params: Parameters): RequestResult<Entity>
+    fun delete(params: T): RequestResult<R>
 }

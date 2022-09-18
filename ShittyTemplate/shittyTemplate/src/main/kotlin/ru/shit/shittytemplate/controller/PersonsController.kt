@@ -39,3 +39,20 @@ class PersonsController {
         return ResponseEntity(HttpStatus.OK) // 404 400
     }
 }
+
+//fun main() {
+//    Database.connect(Hardcode.POSTGRES_DB_ADDRESS, "org.postgresql.Driver", Hardcode.POSTGRES_USER, Hardcode.POSTGRES_PASSWORD)
+//
+//    transaction {
+//        addLogger(StdOutSqlLogger)
+//        PersonsTable.insert {
+//            it[mName] = "VnatureLox333"
+//            it[mAge] = 42
+//            it[mAddress] = "hz"
+//            it[mWork] = "nothing"
+//        }
+//    }
+//    transaction {
+//        println( PersonsTable.selectAll().map { it[mId] })
+//    }
+//}

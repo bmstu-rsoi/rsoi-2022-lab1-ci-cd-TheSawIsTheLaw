@@ -2,12 +2,12 @@ package ru.shit.shittytemplate.repository.result
 
 class RequestResult<T>(
     val result: Result,
-    private val returnedValues: Array<T>?
+    private val returnedValues: Array<T>? = null
 ) {
 
     enum class Result {
         SUCCESS,
-        ERROR
+        FAIL
     }
 
     fun get(): Array<T>? = returnedValues
