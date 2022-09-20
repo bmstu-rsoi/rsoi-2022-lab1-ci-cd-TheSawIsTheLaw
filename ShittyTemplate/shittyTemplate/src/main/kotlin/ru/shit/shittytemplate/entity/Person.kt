@@ -1,9 +1,9 @@
 package ru.shit.shittytemplate.entity
 
 class Person(
-    val mId: Int,
-    val mName: String,
-    val mAge: Int,
-    val mAddress: String,
-    val mWork: String
+    var id: Int,
+    val name: String? = null,
+    val age: Int? = null,
+    val address: String? = null,
+    val work: String? = null
 ): Entity()

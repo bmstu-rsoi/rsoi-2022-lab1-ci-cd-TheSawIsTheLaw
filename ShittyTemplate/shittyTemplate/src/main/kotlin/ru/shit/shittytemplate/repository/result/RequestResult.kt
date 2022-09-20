@@ -11,4 +11,13 @@ class RequestResult<T>(
     }
 
     fun get(): Array<T>? = returnedValues
+
+    companion object {
+
+        @JvmStatic
+        fun <T> fail(): RequestResult<T> = RequestResult(Result.FAIL)
+
+        @JvmStatic
+        fun <T> success(): RequestResult<T> = RequestResult(Result.SUCCESS)
+    }
 }

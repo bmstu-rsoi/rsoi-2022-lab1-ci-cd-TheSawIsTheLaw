@@ -16,12 +16,12 @@ import ru.shit.shittytemplate.repository.result.RequestResult
 
 object PersonsRepository : Repository<PersonsParameters, Person> {
 
-    private val database by lazy { Database.connect(
+    private val database = Database.connect(
         Hardcode.POSTGRES_DB_ADDRESS,
         "org.postgresql.Driver",
         Hardcode.POSTGRES_USER,
         Hardcode.POSTGRES_PASSWORD
-    ) }
+    )
 
     override fun get(params: PersonsParameters): RequestResult<Person> =
         transaction(database) {
@@ -36,32 +36,44 @@ object PersonsRepository : Repository<PersonsParameters, Person> {
                     .toTypedArray().let { shit -> RequestResult(RequestResult.Result.SUCCESS, shit) }
         }
 
+    override fun add(params: PersonsParameters): RequestResult<Person> =
+        if (params.newPerson != null) {
+            val newPerson = params.newPerson
+            var recordId = 0
+            transaction {
+                recordId = PersonsTable.insert {
+                    if (newPerson.age != null) it[mAge] = newPerson.age
+                    if (newPerson.name != null) it[mName] = newPerson.name
+                    if (newPerson.work != null) it[mWork] = newPerson.work
+                    if (newPerson.address != null) it[mAddress] = newPerson.address
+                }.resultedValues!!.first()[mId]
+            }
+
+            RequestResult(RequestResult.Result.SUCCESS, arrayOf(Person(recordId)))
+        } else RequestResult(RequestResult.Result.FAIL)
+
     override fun set(params: PersonsParameters): RequestResult<Person> =
         if (params.newPerson != null) {
             val newPerson = params.newPerson
+            var updated = 0
             transaction(database) {
-                PersonsTable.update({ mId eq params.personId }) {
-                    it[mAge] = newPerson.mAge
-                    it[mName] = newPerson.mName
-                    it[mWork] = newPerson.mWork
-                    it[mAddress] = newPerson.mAddress
+                updated = PersonsTable.update({ mId eq params.personId }) {
+                    if (newPerson.age != null) it[mAge] = newPerson.age
+                    if (newPerson.name != null) it[mName] = newPerson.name
+                    if (newPerson.work != null) it[mWork] = newPerson.work
+                    if (newPerson.address != null) it[mAddress] = newPerson.address
                 }
             }
 
-            RequestResult(RequestResult.Result.SUCCESS)
+            if (updated > 0) RequestResult.success() else RequestResult.fail()
         } else {
-            RequestResult(RequestResult.Result.FAIL)
+            RequestResult.fail()
         }
 
     override fun delete(params: PersonsParameters): RequestResult<Person> =
         transaction(database) {
-            val result = PersonsTable.deleteWhere {
+            PersonsTable.deleteWhere {
                 mId eq params.personId
             }
-
-            return@transaction if (result > 0)
-                RequestResult(RequestResult.Result.SUCCESS)
-            else
-                RequestResult(RequestResult.Result.FAIL)
-        }
+        }.let { RequestResult(RequestResult.Result.SUCCESS) }
 }
