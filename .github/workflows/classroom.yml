@@ -25,3 +25,26 @@ jobs:
           user_column: 'D'
           column_offset: 'F'
           mark: "'+"
+
+      - name: Build shitty application
+        uses: eskatos/gradle-command-action@v1
+        with:
+          dependencies-cache-enabled: true
+          arguments: clean build
+
+      - name: Deploy
+        uses: akhileshns/heroku-deploy@v3.4.6
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: rsoi-thesawisthelaw-1
+          heroku_email: dobriyenot17@gmail.com
+          usedocker: true
+
+      - name: tests
+        id: run-newman
+        uses: anthonyvscode/newman-action@v1
+        with:
+          collection: postman/[inst] Lab1.postman_collection.json
+          environment: postman/[inst][heroku] Lab1.postman_environment.json
+          delayRequest: 50
+          reporters: cli

@@ -52,3 +52,21 @@ class PersonsController {
         else if (PersonsRepository.set(PersonsParameters(id, newPerson)).result != RequestResult.Result.SUCCESS) ResponseEntity.notFound().build()
         else ResponseEntity.ok(getPerson(id).body)
 }
+
+//fun main() {
+//    Database.connect(Hardcode.POSTGRES_DB_ADDRESS, "org.postgresql.Driver", Hardcode.POSTGRES_USER, Hardcode.POSTGRES_PASSWORD)
+//
+//    transaction {
+//        SchemaUtils.create(PersonsTable)
+//        addLogger(StdOutSqlLogger)
+//        PersonsTable.insert {
+//            it[mName] = "VnatureLox333"
+//            it[mAge] = 42
+//            it[mAddress] = "hz"
+//            it[mWork] = "nothing"
+//        }
+//    }
+//    transaction {
+//        println( PersonsTable.selectAll().map { it[mId] })
+//    }
+//}
