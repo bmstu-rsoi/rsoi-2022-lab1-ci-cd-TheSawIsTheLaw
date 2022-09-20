@@ -16,12 +16,14 @@ import ru.shit.shittytemplate.repository.result.RequestResult
 
 object PersonsRepository : Repository<PersonsParameters, Person> {
 
-    private val database = Database.connect(
-        Hardcode.POSTGRES_DB_ADDRESS,
-        "org.postgresql.Driver",
-        Hardcode.POSTGRES_USER,
-        Hardcode.POSTGRES_PASSWORD
-    )
+    private val database by lazy {
+        Database.connect(
+            Hardcode.POSTGRES_DB_ADDRESS,
+            "org.postgresql.Driver",
+            Hardcode.POSTGRES_USER,
+            Hardcode.POSTGRES_PASSWORD
+        )
+    }
 
     override fun get(params: PersonsParameters): RequestResult<Person> =
         transaction(database) {
@@ -40,7 +42,7 @@ object PersonsRepository : Repository<PersonsParameters, Person> {
         if (params.newPerson != null) {
             val newPerson = params.newPerson
             var recordId = 0
-            transaction {
+            transaction(database) {
                 recordId = PersonsTable.insert {
                     if (newPerson.age != null) it[mAge] = newPerson.age
                     if (newPerson.name != null) it[mName] = newPerson.name
@@ -50,7 +52,8 @@ object PersonsRepository : Repository<PersonsParameters, Person> {
             }
 
             RequestResult(RequestResult.Result.SUCCESS, arrayOf(Person(recordId)))
-        } else RequestResult(RequestResult.Result.FAIL)
+        } else
+            RequestResult(RequestResult.Result.FAIL)
 
     override fun set(params: PersonsParameters): RequestResult<Person> =
         if (params.newPerson != null) {
