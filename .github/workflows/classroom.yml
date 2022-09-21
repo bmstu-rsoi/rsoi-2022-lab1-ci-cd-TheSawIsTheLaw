@@ -41,9 +41,6 @@ jobs:
           environment: postman/[inst][heroku] Lab1.postman_environment.json
           delayRequest: 50
           reporters: cli
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Autograding
         uses: education/autograding@v1
