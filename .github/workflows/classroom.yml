@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - develop
 jobs:
 
   build:
@@ -25,7 +26,7 @@ jobs:
         run: sudo ./gradlew test --rerun-tasks
 
       - name: Deploy
-        uses: akhileshns/heroku-deploy@v3.12.12
+        uses: akhileshns/heroku-deploy@v3.7.8
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: rsoi-thesawisthelaw-1
