@@ -31,6 +31,7 @@ jobs:
           heroku_app_name: rsoi-thesawisthelaw-1
           heroku_email: dobriyenot17@gmail.com
           usedocker: true
+          delay: 180
 
       - name: tests
         id: run-newman
